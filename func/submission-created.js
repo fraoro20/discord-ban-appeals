@@ -45,23 +45,23 @@ export async function handler(event, context) {
 
         const message = {
             embed: {
-                title: "New appeal submitted!",
+                title: "Richiesta Unban",
                 timestamp: new Date().toISOString(),
                 fields: [
                     {
-                        name: "Submitter",
+                        name: "Inviata da",
                         value: `<@${userInfo.id}> (${username})`
                     },
                     {
-                        name: "Why were you banned?",
+                        name: "Perché sei stato bannato?",
                         value: payload.banReason.slice(0, MAX_EMBED_FIELD_CHARS)
                     },
                     {
-                        name: "Why do you feel you should be unbanned?",
+                        name: "Perché dovremmo sbannarti?",
                         value: payload.appealText.slice(0, MAX_EMBED_FIELD_CHARS)
                     },
                     {
-                        name: "What will you do to avoid being banned in the future?",
+                        name: "Cosa farai per evitare di essere bannato in futuro?",
                         value: payload.futureActions.slice(0, MAX_EMBED_FIELD_CHARS)
                     }
                 ]
@@ -73,7 +73,7 @@ export async function handler(event, context) {
                 const ban = await getBan(userInfo.id, process.env.GUILD_ID, process.env.DISCORD_BOT_TOKEN);
                 if (ban !== null && ban.reason) {
                     message.embed.footer = {
-                        text: `Original ban reason: ${ban.reason}`.slice(0, MAX_EMBED_FOOTER_CHARS)
+                        text: `Motivo del ban: ${ban.reason}`.slice(0, MAX_EMBED_FOOTER_CHARS)
                     };
                 }
             } catch (e) {
@@ -91,7 +91,7 @@ export async function handler(event, context) {
                     components: [{
                         type: 2,
                         style: 5,
-                        label: "Approve appeal and unban user",
+                        label: "Clicca per approvare la richiesta",
                         url: `${unbanUrl.toString()}?token=${encodeURIComponent(createJwt(unbanInfo))}`
                     }]
                 }];
